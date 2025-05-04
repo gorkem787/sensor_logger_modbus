@@ -1,0 +1,232 @@
+/* assets/style.css */
+
+/* Genel Stiller */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f6f9;
+}
+
+/* Başlık Stili */
+h1 {
+    color: #2c3e50;
+    padding: 20px;
+    border-bottom: 2px solid #3498db;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Kontrol Paneli Stilleri */
+.DatePickerRange {
+    background-color: white;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* RadioItems ve Checklist için gelişmiş stiller */
+.RadioItems, .Checklist {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 800px;
+    text-align: center;
+}
+
+.RadioItems:hover, .Checklist:hover {
+    box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+/* Radio butonları için özel stil */
+.RadioItems .dash-radio-item {
+    margin: 8px 0;
+    padding: 12px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.RadioItems .dash-radio-item:hover {
+    background-color: #f8f9fa;
+    border-color: #e0e0e0;
+}
+
+.RadioItems .dash-radio-item input[type="radio"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    accent-color: #3498db;
+}
+
+/* Checklist için özel stil */
+.Checklist .dash-check-list-item {
+    margin: 10px 15px;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.Checklist .dash-check-list-item:hover {
+    background-color: #e3f2fd;
+    transform: scale(1.02);
+}
+
+.Checklist .dash-check-list-item input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: #27ae60;
+}
+
+/* Etiket stilleri */
+.Checklist label, .RadioItems label {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: #2c3e50;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Focus state */
+.RadioItems .dash-radio-item:focus-within,
+.Checklist .dash-check-list-item:focus-within {
+    outline: 2px solid #3498db55;
+    outline-offset: 2px;
+}
+
+/* Active state */
+.RadioItems .dash-radio-item input[type="radio"]:checked + label,
+.Checklist .dash-check-list-item input[type="checkbox"]:checked + label {
+    color: #3498db;
+    font-weight: 600;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .RadioItems, .Checklist {
+        margin: 15px;
+        padding: 15px;
+    }
+
+    .Checklist .dash-check-list-item {
+        display: flex;
+        width: 100%;
+        margin: 8px 0;
+    }
+}
+
+/* Grafik Konteynırları */
+.dcc_graph {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.dcc_graph:hover {
+    transform: translateY(-2px);
+}
+
+/* Kalibrasyon Kontrolleri */
+#calibration-sensor {
+    margin: 10px;
+    width: 200px !important;
+}
+
+#input-mV, #input-chlorine {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 150px;
+}
+
+/* Buton Stilleri */
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 5px;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+#btn-reset-point {
+    background-color: #e74c3c;
+}
+
+#btn-calibrate {
+    background-color: #27ae60;
+}
+
+/* Tablo Stilleri */
+.dash-table-container {
+    background-color: white;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.dash-header {
+    background-color: #2c3e50 !important;
+    color: white !important;
+}
+
+.dash-cell {
+    padding: 12px 15px !important;
+}
+
+/* Interval Component (Gizle) */
+#interval-component {
+    display: none;
+}
+
+/* Renkler ve Efektler */
+.primary-color {
+    color: #2994db;
+}
+
+.secondary-color {
+    color: #2c3e50;
+}
+
+.box-shadow {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+
+    .six.columns {
+        width: 100% !important;
+    }
+
+    .dcc_graph {
+        margin: 10px 0;
+    }
+}
