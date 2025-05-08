@@ -1,12 +1,15 @@
+import sqlite3
+from datetime import datetime, timedelta
+
 import dash
+import numpy as np
+import pandas as pd
+import plotly.graph_objs as go
 from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output, State
-import plotly.graph_objs as go
-from datetime import datetime, timedelta
-import pandas as pd
-import sqlite3
-import numpy as np
+
 from sensor_class_test import Sensor
+
 
 def initialize_database():
     with sqlite3.connect('sensor_data.db') as conn:

@@ -230,3 +230,64 @@ button:hover {
         margin: 10px 0;
     }
 }
+/* Temel Stil */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Navigasyon Çubuğu */
+.navbar {
+    background: #2c3e50;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-header {
+    font-size: 1.5rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-item {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.nav-item:hover {
+    background: #34495e;
+    transform: translateY(-2px);
+}
+
+/* Aktif Sayfa Stili */
+.active .nav-link {
+    background: #3498db;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Sayfa İçeriği */
+.page-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}

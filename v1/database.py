@@ -1,8 +1,0 @@
-import sqlite3
-
-def initialize_database():
-    with sqlite3.connect('sensor_data.db') as conn:
-        c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS sensor_data
-                    (timestamp DATETIME, sensor_id TEXT, mV REAL, chlorine REAL, temp REAL)''')
-        conn.commit()

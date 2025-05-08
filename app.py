@@ -1,21 +1,45 @@
-from layout import create_layout
-from database import initialize_database, initialize_calibration_database
-from dash import Dash
-from callbacks import run_callbacks
+import dash
 import dash_bootstrap_components as dbc
+from dash import Dash, html, dcc
+
+from database import initialize_database, initialize_calibration_database
+from sensor_class import sensor_list
 
 initialize_database()
 initialize_calibration_database()
 
+
+
 app = Dash(__name__,
            external_stylesheets=[
                dbc.themes.BOOTSTRAP,
-               '/assets/style.css'
-           ])
+               '/assets/style.css'],
+           use_pages=True)
+
 server = app.server
 
-app.layout = create_layout(app)
-run_callbacks(app)
+app.layout = html.Div([
+    # Navigasyon Çubuğu
+    html.Nav([
+        html.Div([
+            html.Div(
+                html.H1("Sensör Takip Sistemi", style={'color': 'white', 'margin': '0'}),
+                className="nav-header"
+            ),
+            html.Div([
+                dcc.Link(
+                    html.Div(page['name'], className="nav-link"),
+                    href=page["relative_path"],
+                    className="nav-item"
+                ) for page in dash.page_registry.values()
+            ], className="nav-links")
+        ], className="nav-container")
+    ], className="navbar"),
+
+    # Sayfa İçeriği
+    dash.page_container
+], style={'minHeight': '100vh'})
+
 
 
 if __name__ == '__main__':

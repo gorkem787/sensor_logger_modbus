@@ -1,5 +1,6 @@
-from dash import dcc, html, dash_table
 from datetime import datetime, timedelta
+
+from dash import dcc, html, dash_table
 
 
 def create_layout(app):
