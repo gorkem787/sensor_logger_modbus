@@ -252,6 +252,9 @@ def reset(n_clicks, sensor_id):
     Input('calibration-graph', 'clickData'),
     Input('btn-selected-data-remove', 'n_clicks'),)
 def display_click_data(clickData,n_clicks):
-    clickData = clickData['points'][0]
+    if clickData is None:
+        return dash.no_update
+    else:
+        clickData = clickData['points'][0]
     print(clickData)
     return f"x = {clickData['x']}, y = {clickData['y']}"

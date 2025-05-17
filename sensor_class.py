@@ -154,7 +154,7 @@ class ReferanceSensor:
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-#sensor1 = Sensor(1, host="192.168.1.207" , port=502)
+sensor1 = Sensor(1, host="10.37.64.20" , port=502)
 #sensor2 = Sensor(2, host="10.37.64.21" , port=502)
-#sensor3 = ReferanceSensor(3, host="10.37.64.22" , port=502)
-sensor_list = []
+sensor3 = ReferanceSensor(3, host="10.37.64.22" , port=502)
+sensor_list = [sensor1,sensor3]
