@@ -6,7 +6,7 @@ from dash import html, dcc, callback
 from dash.dependencies import Input, Output, State
 
 from functions import load_sensors_from_file, save_sensors_to_file, check_connection
-from sensor_class import Sensor, sensor_list
+from sensor_class import Sensor, sensor_list, ReferanceSensor
 
 dash.register_page(__name__)
 
@@ -25,6 +25,14 @@ def layout():
                     dbc.Col(dbc.Input(id="ip-input", placeholder="IP Adresi", type="text")),
                     dbc.Col(dbc.Input(id="port-input", placeholder="Port", type="text")),
                     dbc.Col(dbc.Input(id="id-input", placeholder="Sensör ID", type="text")),
+                    dbc.Col( dbc.Select(
+                        id='sensor-type',
+                        options=[{'label': "Sensor", 'value': "Sensor"},
+                                 {'label': "Referance", 'value': "ReferanceSensor"}
+                                 ],
+                        value='1',
+                        className="me-2 mb-2"
+                    ),),
                     dbc.Col(dbc.Button("Sensör Ekle", id="add-sensor-btn", color="primary"))
                 ])
             ])
@@ -64,10 +72,11 @@ def show_sensors():
      Input({"type": "delete-btn", "index": dash.ALL}, "n_clicks")],
     [State("ip-input", "value"),
      State("port-input", "value"),
-     State("id-input", "value")],
+     State("id-input", "value"),
+     State("sensor-type", "value")],
     prevent_initial_call=True
 )
-def handle_sensor_actions(add_clicks, delete_clicks, ip, port, sensor_id):
+def handle_sensor_actions(add_clicks, delete_clicks, ip, port, sensor_id, sensor_type):
     ctx = dash.callback_context
     trigger = ctx.triggered[0]["prop_id"].split(".")[0]
 
@@ -87,10 +96,14 @@ def handle_sensor_actions(add_clicks, delete_clicks, ip, port, sensor_id):
             "id": sensor_id,
             "ip": ip,
             "port": port,
+            "sensor-type": sensor_type,
             "status": "aktif" if is_active else "pasif"
         }
         sensors.append(new_sensor)
-        sensor_list.append(Sensor(new_sensor["id"], new_sensor["ip"], new_sensor["port"]))
+        if sensor_type == "Referance":
+            sensor_list.append(ReferanceSensor(new_sensor["id"], new_sensor["ip"], new_sensor["port"]))
+        else:
+            sensor_list.append(Sensor(new_sensor["id"], new_sensor["ip"], new_sensor["port"]))
         save_sensors_to_file(sensors)
 
     elif "delete-btn" in trigger:
@@ -109,9 +122,13 @@ def initialize_connections():
     sensors = load_sensors_from_file()
     for s in sensors:
         if not any(sensor.sensor_id == s["id"] for sensor in sensor_list):
-            new_sensor = Sensor(s["id"], s["ip"], s["port"])
-            new_sensor.status = s["status"]
-            sensor_list.append(new_sensor)
-
+            if s["sensor-type"] == "Referance":
+                new_sensor = ReferanceSensor(s["id"], s["ip"], s["port"])
+                new_sensor.status = s["status"]
+                sensor_list.append(new_sensor)
+            else:
+                new_sensor = Sensor(s["id"], s["ip"], s["port"])
+                new_sensor.status = s["status"]
+                sensor_list.append(new_sensor)
 
 initialize_connections()

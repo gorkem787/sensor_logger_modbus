@@ -21,11 +21,22 @@ class Sensor:
             port=port,
             framer= FramerType("rtu")
         )
+        self.connect()
+
+    def __str__(self):
+        return f"{self.sensor_id, self.host, self.port}"
+
     def connect(self):
         try:
-            self.client.connect()
+            a = self.client.connect()
+            self.connection = a
+            print(self.connection)
+            return a
         except Exception as e:
             print(e)
+            self.connection = False
+            return False
+
 
     def read_registers(self):
         DATATYPE = self.client.DATATYPE
@@ -51,44 +62,44 @@ class Sensor:
         print("Calibre edildi")
 
     def generate_sensor_data(self):
-        try:
-            # Read sensor data
-            mV, chlorine = self.read_registers()
-        except Exception as e:
-            print(f"Error reading sensor registers: {e}")
-            return  # Exit if we can't read sensor data
+        if self.connection:
+            try:
+                mV, chlorine = self.read_registers()
+            except Exception as e:
+                print(f"Error reading sensor registers: {e}")
+                return  # Exit if we can't read sensor data
 
-        # Get historical data for averaging
-        try:
-            with sqlite3.connect('sensor_data.db') as conn:
-                # Get historical mV average
-                query = """
-                    SELECT mV FROM sensor_data
-                    WHERE sensor_id = ?
-                    ORDER BY timestamp DESC
-                    LIMIT 100
-                """
-                df = pd.read_sql(query, conn, params=(self.sensor_id,))
-                # Calculate average (default to 0 if no history)
-                temp = df["mV"].mean() if not df.empty and 'mV' in df.columns else 0
-                average_chlorine = df["chlorine"].mean() if not df.empty and 'chlorine' in df.columns else 0
-                if type(average_chlorine) == list:
-                    average_chlorine = 0
+            # Get historical data for averaging
+            try:
+                with sqlite3.connect('sensor_data.db') as conn:
+                    # Get historical mV average
+                    query = """
+                        SELECT mV FROM sensor_data
+                        WHERE sensor_id = ?
+                        ORDER BY timestamp DESC
+                        LIMIT 100
+                    """
+                    df = pd.read_sql(query, conn, params=(self.sensor_id,))
+                    # Calculate average (default to 0 if no history)
+                    average_mV = df["mV"].mean() if not df.empty and 'mV' in df.columns else 0
+                    average_chlorine = df["chlorine"].mean() if not df.empty and 'chlorine' in df.columns else 0
+                    if type(average_chlorine) == list:
+                        print(average_chlorine)
 
-                # Insert new data
-                timestamp = datetime.now()
-                print(timestamp, self.sensor_id, mV, chlorine, temp, average_chlorine)
-                c = conn.cursor()
-                c.execute('''
-                    INSERT INTO sensor_data (timestamp, sensor_id, mV, chlorine, temp, average_chlorine)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                ''', (timestamp, self.sensor_id, mV, chlorine, temp, average_chlorine))
-                conn.commit()
+                    # Insert new data
+                    timestamp = datetime.now()
+                    print(timestamp, self.sensor_id, mV, chlorine, average_mV, average_chlorine)
+                    c = conn.cursor()
+                    c.execute('''
+                        INSERT INTO sensor_data (timestamp, sensor_id, mV, chlorine, average_mV, average_chlorine)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                    ''', (timestamp, self.sensor_id, mV, chlorine, average_mV, average_chlorine))
+                    conn.commit()
 
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-        except Exception as e:
-            print(f"Unexpected error: {e}")
+            except sqlite3.Error as e:
+                print(f"Database error: {e}")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
 
 class ReferanceSensor:
     def __init__(self, sensor_id, host, port):
@@ -139,7 +150,7 @@ class ReferanceSensor:
                     LIMIT 100
                 """
                 df = pd.read_sql(query, conn, params=(self.sensor_id,))
-                average_chlorine = df["chlorine"].mean() if not df.empty and 'chlorine' in df.columns else 0
+                average_chlorine = df["chlorine"].mean() if not df.empty and 'chlorine' in df.columns else None
                 # Insert new data
                 timestamp = datetime.now()
                 c = conn.cursor()
@@ -154,7 +165,7 @@ class ReferanceSensor:
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-sensor1 = Sensor(1, host="10.37.64.20" , port=502)
+#sensor1 = Sensor(1, host="10.37.64.20" , port=502)
 #sensor2 = Sensor(2, host="10.37.64.21" , port=502)
-sensor3 = ReferanceSensor(3, host="10.37.64.22" , port=502)
-sensor_list = [sensor1,sensor3]
+#sensor3 = ReferanceSensor(3, host="10.37.64.22" , port=502)
+sensor_list = []
