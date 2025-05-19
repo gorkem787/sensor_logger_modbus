@@ -34,14 +34,6 @@ The Sensor Tracking System provides a web-based interface to monitor and manage 
 - Sensor calibration management
 - Data export to CSV and Excel formats
 
-## API
-
-The application exposes the following API endpoints:
-
-- `/api/sensors`: Retrieve a list of all registered sensors
-- `/api/sensor/<sensor_id>/data`: Retrieve sensor data for a specific sensor
-- `/api/calibration/<sensor_id>`: Retrieve calibration data for a specific sensor
-- `/api/calibration/<sensor_id>`: Update calibration parameters for a specific sensor
 
 ## Contributing
 
@@ -57,12 +49,3 @@ Contributions to the Sensor Tracking System are welcome. To contribute, please f
 
 This project is licensed under the [MIT License](LICENSE).
 
-## Testing
-
-To run the tests for the Sensor Tracking System, use the following command:
-
-```
-python -m unittest discover tests/
-```
-
-This will run all the test cases located in the `tests/` directory.
