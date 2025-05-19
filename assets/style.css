@@ -242,7 +242,18 @@ body {
     padding: 1rem 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+.footer {
+    background-color: #333;
+    margin-top: auto;
+    width: 100%;
+    border-top: 1px solid #444;
+}
 
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;

@@ -37,10 +37,23 @@ app.layout = html.Div([
     ], className="navbar"),
 
     # Sayfa İçeriği
-    dash.page_container
-], style={'minHeight': '100vh'})
+    dash.page_container,
+
+    # Footer
+    html.Footer(
+        html.Div([
+            html.Div([
+                html.P("© 2025 Sensör Takip Sistemi. Tüm hakları saklıdır.",
+                      style={'margin': '5px', 'color': 'white'}),
+                html.P("İletişim: gorkemcandan15@gmail.com",
+                      style={'margin': '5px', 'color': 'white'})
+            ], style={'textAlign': 'center', 'padding': '15px'})
+        ], className="footer-content"),
+        className="footer"
+    )
+], style={'minHeight': '100vh', 'display': 'flex', 'flexDirection': 'column'})
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=4000)
+    app.run(debug=True, host="0.0.0.0", port=5000)
