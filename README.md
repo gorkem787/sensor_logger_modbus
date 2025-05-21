@@ -17,7 +17,9 @@
    ```
 4. Install the required dependencies:
    ```
-   pip install -r requirements.txt
+   pip install dash
+   pip install pandas
+   pip install pysqlite3
    ```
 5. Run the application:
    ```
@@ -28,7 +30,8 @@
 ## Usage
 
 The Sensor Tracking System provides a web-based interface to monitor and manage sensor data. The main features include:
-
+- The system interfaces with sensors using the RS485 modbus protocol transmitted over TCP
+- Developed specifically for laboratory use, the system enables direct comparison of multiple sensors under test conditions
 - Live data monitoring for multiple sensors
 - Historical data visualization and analysis
 - Sensor calibration management
